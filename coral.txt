@@ -1,0 +1,4 @@
+cd Desktop/FLL 2026/coral_site
+.\.venv\Scripts\python app.py
+
+http://127.0.0.1:5000/
