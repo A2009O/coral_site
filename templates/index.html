@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>SWAT Robotics – Coral & Artifact Detector</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <div class="wrap">
+    <header class="top">
+      <div class="brand">
+        <img class="logo" src="/static/logo.png" alt="SWAT Robotics logo">
+        <div class="brandText">
+          <h1>Coral & Artifact Detector</h1>
+          <p class="sub">Cleaner results using confidence + size filters + NMS + caps.</p>
+        </div>
+      </div>
+      <div class="badge">Flask + Roboflow Workflow</div>
+    </header>
+
+    <section class="card">
+      <div class="row">
+        <div class="left">
+          <h2>Upload</h2>
+          <p class="muted">JPG / PNG / WEBP (max ~20MB)</p>
+
+          <input id="file" type="file" accept="image/*" />
+          <button id="btn" class="btn">Detect</button>
+
+          <div class="statusBox">
+            <div class="statusLine">
+              <span id="statusDot" class="dot idle"></span>
+              <span id="statusText" class="statusText">Waiting for image…</span>
+            </div>
+
+            <div class="progressWrap">
+              <div class="progressBar">
+                <div id="progressFill" class="progressFill" style="width:0%"></div>
+              </div>
+              <div id="progressPct" class="pct">0%</div>
+            </div>
+
+            <div id="spinner" class="spinner hidden"></div>
+          </div>
+
+          <div id="error" class="error hidden"></div>
+
+          <hr class="sep">
+
+          <h3>Fast Fix Controls</h3>
+
+          <div class="controls">
+            <div class="control">
+              <label>Min confidence: <span id="minConfVal">0.80</span></label>
+              <input id="minConf" type="range" min="0" max="1" step="0.01" value="0.80">
+              <div class="hint muted">Increase to show fewer boxes.</div>
+            </div>
+
+            <div class="control">
+              <label>Min area (% of image): <span id="minAreaVal">0.80%</span></label>
+              <input id="minArea" type="range" min="0" max="5" step="0.05" value="0.80">
+              <div class="hint muted">Filters tiny noisy boxes.</div>
+            </div>
+
+            <div class="control">
+              <label>NMS IoU: <span id="nmsVal">0.45</span></label>
+              <input id="nmsIoU" type="range" min="0" max="1" step="0.01" value="0.45">
+              <div class="hint muted">Higher removes more overlapping duplicates.</div>
+            </div>
+
+            <div class="twoCol">
+              <div class="control">
+                <label>Max total detections: <span id="maxTotalVal">20</span></label>
+                <input id="maxTotal" type="range" min="1" max="200" step="1" value="20">
+              </div>
+
+              <div class="control">
+                <label>Max per class: <span id="maxPerClassVal">12</span></label>
+                <input id="maxPerClass" type="range" min="1" max="100" step="1" value="12">
+              </div>
+            </div>
+
+            <div class="control check">
+              <label class="checkRow">
+                <input id="smallMode" type="checkbox" checked>
+                <span>Small outlines + small labels</span>
+              </label>
+            </div>
+          </div>
+
+          <hr class="sep">
+
+          <h3>Detections</h3>
+          <div id="summary" class="summary muted">No detections yet.</div>
+
+          <details class="raw">
+            <summary>Show response JSON</summary>
+            <pre id="rawJson">—</pre>
+          </details>
+        </div>
+
+        <div class="right">
+          <div class="imgGrid">
+            <div class="imgCard">
+              <div class="imgTitle">Original</div>
+              <img id="originalImg" alt="original preview" />
+            </div>
+            <div class="imgCard">
+              <div class="imgTitle">Detected</div>
+              <img id="resultImg" alt="result preview" />
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <footer class="foot muted">
+      Tip: Start with confidence 0.85 and min area 1% if it’s still too noisy.
+    </footer>
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
